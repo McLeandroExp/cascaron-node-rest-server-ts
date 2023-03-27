@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import cors from "cors";
 import { dbConnection } from "../database/config";
 import { userRouter } from "../routes/usuarios";
+import { authRouter } from "../routes/auth";
 class Server {
   app: Application;
   port: String | number;
@@ -28,6 +29,7 @@ class Server {
     this.app.use(express.json());
   }
   routes() {
+    this.app.use("/api/auth", authRouter);
     this.app.use("/api/usuarios", userRouter);
   }
   listen() {

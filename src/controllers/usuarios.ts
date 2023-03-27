@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import Usuario from "../models/usuario";
+import { CustomRequest } from "../interfaces/custom-request";
 const usuariosGet = async (req: Request, res: Response) => {
   let { limite = 5, desde = 1 } = req.query;
   limite = Number(limite);
@@ -39,10 +40,11 @@ const usuariosPut = async (req: Request, res: Response) => {
 
   res.json(usuario);
 };
-const usuariosDelete = async (req: Request, res: Response) => {
+const usuariosDelete = async (req: CustomRequest, res: Response) => {
   const { id } = req.params;
+
   const usuario = await Usuario.findByIdAndUpdate(id, { estado: false });
 
-  res.json({ id, usuarioEliminado: usuario });
+  res.json(usuario);
 };
 export { usuariosGet, usuariosPost, usuariosPut, usuariosDelete };
