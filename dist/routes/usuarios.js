@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userRouter = void 0;
 const express_1 = require("express");
 const express_validator_1 = require("express-validator");
-const validar_campos_1 = require("../middlewares/validar-campos");
+const middlewares_1 = require("../middlewares");
 const db_validators_1 = require("../helpers/db-validators");
 const usuarios_1 = require("../controllers/usuarios");
 const userRouter = (0, express_1.Router)();
@@ -13,7 +13,7 @@ userRouter.put("/:id", [
     (0, express_validator_1.check)("id", "no es un id valido").isMongoId(),
     (0, express_validator_1.check)("id").custom(db_validators_1.existeUsuarioPorId),
     (0, express_validator_1.check)("rol").custom(db_validators_1.esRoleValido),
-    validar_campos_1.validarCampos,
+    middlewares_1.validarCampos,
 ], usuarios_1.usuariosPut);
 userRouter.post("/", [
     (0, express_validator_1.check)("nombre", "el nombre es obligatorio").not().isEmpty(),
@@ -22,10 +22,13 @@ userRouter.post("/", [
     (0, express_validator_1.check)("correo", "el correo no es valido").isEmail(),
     (0, express_validator_1.check)("correo", "el correo no debe repetirse").custom(db_validators_1.emailExiste),
     (0, express_validator_1.check)("rol").custom(db_validators_1.esRoleValido),
-    validar_campos_1.validarCampos,
+    middlewares_1.validarCampos,
 ], usuarios_1.usuariosPost);
 userRouter.delete("/:id", [
+    middlewares_1.validarJWT,
+    // esAdminRole,
+    (0, middlewares_1.tieneRole)("ADMIN_ROLE", "VENTAS_ROLE"),
     (0, express_validator_1.check)("id", "no es un id valido").isMongoId(),
     (0, express_validator_1.check)("id").custom(db_validators_1.existeUsuarioPorId),
-    validar_campos_1.validarCampos,
+    middlewares_1.validarCampos,
 ], usuarios_1.usuariosDelete);

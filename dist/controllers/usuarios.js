@@ -69,6 +69,6 @@ exports.usuariosPut = usuariosPut;
 const usuariosDelete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const usuario = yield usuario_1.default.findByIdAndUpdate(id, { estado: false });
-    res.json({ id, usuarioEliminado: usuario });
+    res.json(usuario);
 });
 exports.usuariosDelete = usuariosDelete;
