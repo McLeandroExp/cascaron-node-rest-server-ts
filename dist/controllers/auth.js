@@ -12,10 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginController = void 0;
+exports.googleSignIn = exports.loginController = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const usuario_1 = __importDefault(require("../models/usuario"));
-const generar_jwt_1 = require("../helpers/generar-jwt");
+const helpers_1 = require("../helpers");
 const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { correo, password } = req.body;
     try {
@@ -40,7 +40,7 @@ const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function
                 .json({ msg: "Usuario / password no son correctos - password" });
         }
         //generar jwt
-        const token = yield (0, generar_jwt_1.generarJWT)(usuario.id);
+        const token = yield (0, helpers_1.generarJWT)(usuario.id);
         res.json({ usuario, token });
     }
     catch (error) {
@@ -49,3 +49,36 @@ const loginController = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.loginController = loginController;
+const googleSignIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id_token } = req.body;
+    try {
+        const { nombre, img, correo } = yield (0, helpers_1.googleVerify)(id_token);
+        let usuario = yield usuario_1.default.findOne({ correo });
+        if (!usuario) {
+            const data = {
+                nombre,
+                correo,
+                password: ":x",
+                img,
+                google: true,
+                rol: "USER_ROLE",
+            };
+            usuario = new usuario_1.default(data);
+            yield usuario.save();
+        }
+        //si el usuario en db
+        if (!usuario.estado) {
+            return res.status(401).json({ ok: false, msg: "Usuario bloqueado" });
+        }
+        const token = yield (0, helpers_1.generarJWT)(usuario.id);
+        res.json({ ok: true, usuario, token });
+    }
+    catch (error) {
+        console.warn(error);
+        res.status(400).json({
+            ok: false,
+            msg: "El token no se pudo verificar",
+        });
+    }
+});
+exports.googleSignIn = googleSignIn;
