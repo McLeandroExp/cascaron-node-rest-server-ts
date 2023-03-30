@@ -16,8 +16,7 @@ exports.Server = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const config_1 = require("../database/config");
-const usuarios_1 = require("../routes/usuarios");
-const auth_1 = require("../routes/auth");
+const routes_1 = require("../routes");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -43,8 +42,11 @@ class Server {
         this.app.use(express_1.default.json());
     }
     routes() {
-        this.app.use("/api/auth", auth_1.authRouter);
-        this.app.use("/api/usuarios", usuarios_1.userRouter);
+        this.app.use("/api/auth", routes_1.authRouter);
+        this.app.use("/api/usuarios", routes_1.userRouter);
+        this.app.use("/api/categorias", routes_1.categoriasRouter);
+        this.app.use("/api/productos", routes_1.productosRouter);
+        this.app.use("/api/buscar", routes_1.buscarRouter);
     }
     listen() {
         this.app.listen(this.port, () => {

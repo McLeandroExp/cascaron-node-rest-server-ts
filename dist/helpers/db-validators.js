@@ -12,7 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.existeUsuarioPorId = exports.emailExiste = exports.esRoleValido = void 0;
+exports.existeProductoPorId = exports.existeCategoriaPorId = exports.existeUsuarioPorId = exports.emailExiste = exports.esRoleValido = void 0;
+const categoria_1 = __importDefault(require("../models/categoria"));
+const producto_1 = __importDefault(require("../models/producto"));
 const role_1 = __importDefault(require("../models/role"));
 const usuario_1 = __importDefault(require("../models/usuario"));
 const esRoleValido = (rol = "") => __awaiter(void 0, void 0, void 0, function* () {
@@ -36,3 +38,17 @@ const existeUsuarioPorId = (id = "") => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.existeUsuarioPorId = existeUsuarioPorId;
+const existeCategoriaPorId = (id = "") => __awaiter(void 0, void 0, void 0, function* () {
+    const existeCategoria = yield categoria_1.default.findById(id);
+    if (!existeCategoria) {
+        throw new Error(`El id ${id} no existe`);
+    }
+});
+exports.existeCategoriaPorId = existeCategoriaPorId;
+const existeProductoPorId = (id = "") => __awaiter(void 0, void 0, void 0, function* () {
+    const existeCategoria = yield producto_1.default.findById(id);
+    if (!existeCategoria) {
+        throw new Error(`El id ${id} no existe`);
+    }
+});
+exports.existeProductoPorId = existeProductoPorId;

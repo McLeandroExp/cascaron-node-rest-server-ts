@@ -1,8 +1,13 @@
 import express, { Application } from "express";
 import cors from "cors";
 import { dbConnection } from "../database/config";
-import { userRouter } from "../routes/usuarios";
-import { authRouter } from "../routes/auth";
+import {
+  userRouter,
+  authRouter,
+  categoriasRouter,
+  productosRouter,
+  buscarRouter,
+} from "../routes";
 class Server {
   app: Application;
   port: String | number;
@@ -31,6 +36,9 @@ class Server {
   routes() {
     this.app.use("/api/auth", authRouter);
     this.app.use("/api/usuarios", userRouter);
+    this.app.use("/api/categorias", categoriasRouter);
+    this.app.use("/api/productos", productosRouter);
+    this.app.use("/api/buscar", buscarRouter);
   }
   listen() {
     this.app.listen(this.port, () => {

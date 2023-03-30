@@ -1,3 +1,5 @@
+import Categoria from "../models/categoria";
+import Producto from "../models/producto";
 import Role from "../models/role";
 import Usuario from "../models/usuario";
 const esRoleValido = async (rol = "") => {
@@ -18,4 +20,23 @@ const existeUsuarioPorId = async (id = "") => {
     throw new Error(`El id ${id} no existe`);
   }
 };
-export { esRoleValido, emailExiste, existeUsuarioPorId };
+
+const existeCategoriaPorId = async (id = "") => {
+  const existeCategoria = await Categoria.findById(id);
+  if (!existeCategoria) {
+    throw new Error(`El id ${id} no existe`);
+  }
+};
+const existeProductoPorId = async (id = "") => {
+  const existeCategoria = await Producto.findById(id);
+  if (!existeCategoria) {
+    throw new Error(`El id ${id} no existe`);
+  }
+};
+export {
+  esRoleValido,
+  emailExiste,
+  existeUsuarioPorId,
+  existeCategoriaPorId,
+  existeProductoPorId,
+};
