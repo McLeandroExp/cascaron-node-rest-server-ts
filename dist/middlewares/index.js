@@ -20,3 +20,4 @@ Object.defineProperty(exports, "validarCampos", { enumerable: true, get: functio
 var validar_jwt_1 = require("./validar-jwt");
 Object.defineProperty(exports, "validarJWT", { enumerable: true, get: function () { return validar_jwt_1.validarJWT; } });
 __exportStar(require("./validar-roles"), exports);
+__exportStar(require("./validar-archivo"), exports);

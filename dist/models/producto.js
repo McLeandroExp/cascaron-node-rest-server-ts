@@ -40,6 +40,9 @@ const ProductoSchema = new mongoose_1.Schema({
     descripcion: {
         type: String,
     },
+    img: {
+        type: String,
+    },
     disponible: {
         type: Boolean,
         default: true,

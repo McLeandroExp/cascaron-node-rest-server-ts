@@ -17,3 +17,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./generar-jwt"), exports);
 __exportStar(require("./google-verify"), exports);
 __exportStar(require("./db-validators"), exports);
+__exportStar(require("./subir-archivo"), exports);

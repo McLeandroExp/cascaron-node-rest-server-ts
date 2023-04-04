@@ -19,3 +19,4 @@ __exportStar(require("./categorias"), exports);
 __exportStar(require("./usuarios"), exports);
 __exportStar(require("./productos"), exports);
 __exportStar(require("./buscar"), exports);
+__exportStar(require("./uploads"), exports);

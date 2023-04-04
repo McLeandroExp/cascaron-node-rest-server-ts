@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.existeProductoPorId = exports.existeCategoriaPorId = exports.existeUsuarioPorId = exports.emailExiste = exports.esRoleValido = void 0;
+exports.coleccionesPermitidas = exports.existeProductoPorId = exports.existeCategoriaPorId = exports.existeUsuarioPorId = exports.emailExiste = exports.esRoleValido = void 0;
 const categoria_1 = __importDefault(require("../models/categoria"));
 const producto_1 = __importDefault(require("../models/producto"));
 const role_1 = __importDefault(require("../models/role"));
@@ -52,3 +52,12 @@ const existeProductoPorId = (id = "") => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.existeProductoPorId = existeProductoPorId;
+//validar colecciones permitidas
+const coleccionesPermitidas = (coleccion = "", colecciones) => {
+    const incluida = colecciones.includes(coleccion);
+    if (!incluida) {
+        throw new Error(`La coleccion ${coleccion} no es permitida, ${colecciones}`);
+    }
+    return true;
+};
+exports.coleccionesPermitidas = coleccionesPermitidas;

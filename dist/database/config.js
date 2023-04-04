@@ -19,7 +19,7 @@ const dbConnection = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (process_1.env.MONGODB_CNN) {
             yield mongoose_1.default.connect(process_1.env.MONGODB_CNN);
-            console.log("estamos en linea");
+            console.log("estamos en linea bdd");
         }
     }
     catch (error) {

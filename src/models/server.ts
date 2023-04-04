@@ -1,12 +1,14 @@
 import express, { Application } from "express";
 import cors from "cors";
 import { dbConnection } from "../database/config";
+import fileUpload from "express-fileupload";
 import {
   userRouter,
   authRouter,
   categoriasRouter,
   productosRouter,
   buscarRouter,
+  uploadRouter,
 } from "../routes";
 class Server {
   app: Application;
@@ -32,6 +34,14 @@ class Server {
     this.app.use(cors());
     //lectura y parseo del body
     this.app.use(express.json());
+    //fileupload - carga de archivos
+    this.app.use(
+      fileUpload({
+        useTempFiles: true,
+        tempFileDir: "/tmp/",
+        createParentPath: true,
+      })
+    );
   }
   routes() {
     this.app.use("/api/auth", authRouter);
@@ -39,6 +49,7 @@ class Server {
     this.app.use("/api/categorias", categoriasRouter);
     this.app.use("/api/productos", productosRouter);
     this.app.use("/api/buscar", buscarRouter);
+    this.app.use("/api/uploads", uploadRouter);
   }
   listen() {
     this.app.listen(this.port, () => {

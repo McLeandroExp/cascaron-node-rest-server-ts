@@ -16,6 +16,7 @@ exports.Server = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const config_1 = require("../database/config");
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const routes_1 = require("../routes");
 class Server {
     constructor() {
@@ -40,6 +41,12 @@ class Server {
         this.app.use((0, cors_1.default)());
         //lectura y parseo del body
         this.app.use(express_1.default.json());
+        //fileupload - carga de archivos
+        this.app.use((0, express_fileupload_1.default)({
+            useTempFiles: true,
+            tempFileDir: "/tmp/",
+            createParentPath: true,
+        }));
     }
     routes() {
         this.app.use("/api/auth", routes_1.authRouter);
@@ -47,6 +54,7 @@ class Server {
         this.app.use("/api/categorias", routes_1.categoriasRouter);
         this.app.use("/api/productos", routes_1.productosRouter);
         this.app.use("/api/buscar", routes_1.buscarRouter);
+        this.app.use("/api/uploads", routes_1.uploadRouter);
     }
     listen() {
         this.app.listen(this.port, () => {
